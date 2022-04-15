@@ -1,0 +1,15 @@
+name: Sparse checkout
+description: "Checkout only files that match trigger patterns"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - shell: bash
+      run: |
+        cat .github/workflows/${{ github.workflow }}.yml | yq  '.on.push.paths | .[]' > /tmp/checkout-patterns
+        git sparse-checkout init
+        cat /tmp/checkout-patterns | git sparse-checkout set --stdin
+
