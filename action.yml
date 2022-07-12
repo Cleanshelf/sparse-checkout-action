@@ -11,5 +11,5 @@ runs:
       run: |
         cat .github/workflows/${{ github.workflow }}.yml | yq  '.on.push.paths | .[]' > /tmp/checkout-patterns
         git sparse-checkout init
-        cat /tmp/checkout-patterns | git sparse-checkout set --stdin
+        cat /tmp/checkout-patterns | git sparse-checkout set --stdin --no-cone
 
